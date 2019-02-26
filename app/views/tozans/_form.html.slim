@@ -1,0 +1,29 @@
+- if tozan.errors.present?
+  ul#error_explanation
+    - tozan.errors.full_messages.each do |message|
+      li = message
+
+= form_with model: tozan, local: true do |f|
+  .form-group
+    = f.label :mountain
+    = f.text_field :mountain, class: 'form-control', id: 'tozan_mountain'
+  .form-group
+    = f.label :elevation
+    = f.text_field :elevation, class: 'form-control', id: 'tozan_elevation'
+  .form-group
+    = f.label :content
+    = f. text_area :content, class: 'form-control', id: 'tozan_content'
+  .form-group
+    = f.label :date
+    = f.date_field :date, class: 'form-control', id: 'tozan_date'
+  .form-group
+    = f.label :image
+    = f.file_field :image, class: 'form-control'
+  = f.submit nil, class: 'btn btn-primary'
+
+/ # Tozanモデル
+/ # ID:id
+/ # 山の名前:mountain:string
+/ # 標高:elevation:string
+/ # 説明:content:text
+/ # 登った日:date:date

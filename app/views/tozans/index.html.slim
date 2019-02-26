@@ -1,0 +1,46 @@
+h1 登山記録一覧
+= link_to '新規登録', new_tozan_path, class: 'btn btn-primary'
+/ 検索フォーム
+/ = search_form_for @q, class: 'mb-5' do |f|
+/   .form-group.row
+/     = f.label :mountain_cont, '山の名前', class: 'col-sm-2 col-form-label'
+/     .col-sm-10
+/       = f.search_field :mountain_cont, class: 'form-control'
+
+/   / 登録日時による検索
+/   .form-group.row
+/     = f.label :created_at_gteq, '登録日時', class: 'col-sm-2 col-form-label'
+/     .col-sm-10
+/       = f.search_field :created_at_gteq, class: 'form-control'
+/   .form-group
+/     = f.submit class: 'btn btn-outline-primary'
+
+.mb-3
+table.table.table-hover
+  thead.thead-default
+    tr
+      / th= '投稿ユーザー'
+      th= '山の名前'
+      th= '標高'
+      th= '登った日'
+      th
+  tbody
+    - @tozans.each do |tozan|
+      tr
+        / td= tozan.user.name
+        td= link_to tozan.mountain, tozan
+        td= tozan.elevation
+        td= tozan.date
+        td
+          = link_to '編集', edit_tozan_path(tozan), class: 'btn btn-primary mr-3'
+          = link_to '削除', tozan, method: :delete, data: { confirm: "登山記録「#{tozan.mountain}」を削除します。よろしいですか？" }, class: 'btn btn-danger'
+
+
+/ link_to のリンク先、tozanはtozan_path(tozan)とも書き換えられる
+
+/ # Tozanモデル
+/ # ID:id
+/ # 山の名前:mountain:string
+/ # 標高:elevation:string
+/ # 説明:content:text
+/ # 登った日:date:date

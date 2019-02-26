@@ -1,0 +1,14 @@
+h1 登山記録新規登録画面
+
+.nav.justify-content-end
+  = link_to '一覧', tozans_path, class: 'nav-link'
+
+= render partial: 'form', locals: { tozan: @tozan }
+
+
+/ # Tozanモデル
+/ # ID:id
+/ # 山の名前:mountain:string
+/ # 標高:elevation:string
+/ # 説明:content:text
+/ # 登った日:date:date

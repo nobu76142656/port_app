@@ -1,0 +1,40 @@
+h1 登山記録の詳細
+
+.nav.justify-content-end
+  = link_to '一覧', tozans_path, class: 'nav-link'
+table.table.table-hover
+  tbody
+    / tr
+    /   th= "投稿ユーザー"
+    /   td= @tozan.user.name
+    tr
+      th= Tozan.human_attribute_name(:id)
+      td= @tozan.id
+    tr
+      th= Tozan.human_attribute_name(:mountain)
+      td= @tozan.mountain
+    tr
+      th= Tozan.human_attribute_name(:elevation)
+      td= @tozan.elevation
+    tr
+      th= Tozan.human_attribute_name(:content)
+      td= simple_format(h(@tozan.content), {}, sanitize: false, wrapper_tag: "div")
+    tr
+      th= "登った日"
+      td= @tozan.date
+    / tr
+    /   th= "画像"
+    /   td= image_tag @tozan.image if @tozan.image.attached?
+
+= link_to '編集', edit_tozan_path, class: 'btn btn-primary mr-3'
+= link_to '削除', @tozan, method: :delete, data: { confirm: "登山記録「#{@tozan.mountain}」を削除します。よろしいですか？" }, class: 'btn btn-danger'
+
+/ content部分が長い場合、改行文字が入ってしまう。そういう場合は以下 p113
+/ td= simple_format(h(@tozan.content), {}, sanitize: false, wrapper_tag: "div")
+
+/ # Tozanモデル
+/ # ID:id
+/ # 山の名前:mountain:string
+/ # 標高:elevation:string
+/ # 説明:content:text
+/ # 登った日:date:date
