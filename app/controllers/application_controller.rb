@@ -1,9 +1,13 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user
+
+  # アプリケーション内全てのアクションの処理まえに、ユーザーがログイン済みかどうかのチェック
+  # が入る。
   before_action :login_required
 
-  private
+  # private
 
+  # ログインしているユーザーを取得する
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
@@ -14,4 +18,6 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
     end
   end
+
+
 end

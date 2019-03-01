@@ -1,6 +1,6 @@
 class TozansController < ApplicationController
   def index
-    @tozans = Tozan.all
+    @tozans = Tozan.all.order(created_at: :desc)
   end
 
   def show
@@ -12,10 +12,11 @@ class TozansController < ApplicationController
   end
 
   def create
-    @tozan = Tozan.new(tozan_params)
+    @tozan = current_user.tozans.new(tozan_params)
+
     if @tozan.save
     # flash[:notece] = "登山記録「#{tozan.mountain}」を登録しました。" とも書ける
-      redirect_to tozans_url, notice: "登山記録「#{tozan.mountain}」を登録しました。"
+      redirect_to tozans_url, notice: "登山記録「#{@tozan.mountain}」を登録しました。"
     else
       render :new
     end

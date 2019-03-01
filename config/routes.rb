@@ -42,3 +42,7 @@ end
 # bin/rails g controller Users new edit show index
 
 # bin/rails g controller Sessions new
+
+
+# 編集(edit)と更新(update)はログインしているユーザーのみ可能にする
+#

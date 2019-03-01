@@ -19,7 +19,7 @@ h1 登山記録一覧
 table.table.table-hover
   thead.thead-default
     tr
-      / th= '投稿ユーザー'
+      th= '投稿ユーザー'
       th= '山の名前'
       th= '標高'
       th= '登った日'
@@ -27,14 +27,14 @@ table.table.table-hover
   tbody
     - @tozans.each do |tozan|
       tr
-        / td= tozan.user.name
+        td= tozan.user.name
         td= link_to tozan.mountain, tozan
         td= tozan.elevation
         td= tozan.date
         td
           = link_to '編集', edit_tozan_path(tozan), class: 'btn btn-primary mr-3'
           = link_to '削除', tozan, method: :delete, data: { confirm: "登山記録「#{tozan.mountain}」を削除します。よろしいですか？" }, class: 'btn btn-danger'
-
+          
 
 / link_to のリンク先、tozanはtozan_path(tozan)とも書き換えられる
 
