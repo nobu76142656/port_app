@@ -19,6 +19,7 @@ h1 登山記録一覧
 table.table.table-hover
   thead.thead-default
     tr
+      th= 'ユーザーID'
       th= '投稿ユーザー'
       th= '山の名前'
       th= '標高'
@@ -27,14 +28,20 @@ table.table.table-hover
   tbody
     - @tozans.each do |tozan|
       tr
-        td= tozan.user.name
+        / ユーザー登録自体を削除してしまうとエラー
+        td= tozan.user.id if tozan.user 
+        td= tozan.user.name if tozan.user
         td= link_to tozan.mountain, tozan
         td= tozan.elevation
         td= tozan.date
         td
-          = link_to '編集', edit_tozan_path(tozan), class: 'btn btn-primary mr-3'
-          = link_to '削除', tozan, method: :delete, data: { confirm: "登山記録「#{tozan.mountain}」を削除します。よろしいですか？" }, class: 'btn btn-danger'
-          
+          / 本人かどうかの認証：本人でない場合には編集削除を表示しない
+          / todo 削除されたユーザーをどうするか？チュートリアルにあったか。
+          / - if current_user.id == tozan.user.id
+          - if current_user && current_user.id == tozan.user.id
+            = link_to '編集', edit_tozan_path(tozan), class: 'btn btn-primary mr-3'
+            = link_to '削除', tozan, method: :delete, data: { confirm: "登山記録「#{tozan.mountain}」を削除します。よろしいですか？" }, class: 'btn btn-danger'
+
 
 / link_to のリンク先、tozanはtozan_path(tozan)とも書き換えられる
 

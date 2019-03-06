@@ -3,11 +3,11 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  root to: 'tozans#index'
+  # root to: 'tozans#index'
+  root to: 'users#index'
   resources :tozans
   resources :users
 end
-
 
 # bin/rails g model Tozan mountain:string elevation:string content:text date:date
 
