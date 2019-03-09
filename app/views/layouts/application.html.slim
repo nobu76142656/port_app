@@ -2,14 +2,14 @@ doctype html
 html
   head
     title
-      | 登山記録アプリ
+      | ポートフォリオ
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
     .app-title.navbar.navbar-expand-md.navbar-light.bg-light
-      .navbar-brand 登山記録アプリ
+      .navbar-brand ポートフォリオ
 
       ul.navbar-nav.ml-auto
         li.nav-item= link_to '登山記録一覧', tozans_path, class: 'nav-link'

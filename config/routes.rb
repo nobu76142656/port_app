@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
+  root to: 'primes#index'
+  get 'primes/index'
+  get 'primes/show'
+
+
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  # root to: 'tozans#index'
-  root to: 'users#index'
+  # root to: 'users#index'
   resources :tozans
   resources :users
 end
+
+# prime (素数)コントローラー
+#
+# rails g controller Primes index show
 
 # bin/rails g model Tozan mountain:string elevation:string content:text date:date
 
