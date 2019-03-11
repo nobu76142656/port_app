@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root to: 'primes#index'
-  get 'primes/index'
-  get 'primes/show'
+  get '/primes/index', to: 'primes#index'
+  get '/primes/show', to: 'primes#show'
+  get '/primes/calcu', to: 'primes#calcu'
 
 
   get '/login', to: 'sessions#new'

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include PrimesHelper
   helper_method :current_user
 
   # アプリケーション内全てのアクションの処理まえに、ユーザーがログイン済みかどうかのチェック
