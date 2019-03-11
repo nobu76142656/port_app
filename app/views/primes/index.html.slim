@@ -2,15 +2,16 @@ h1 素数算出
 
 br
 p 素数を算出したい桁数を入力してください。例：1000
-= form_tag('/primes/calcu', method: :get) do
+= form_tag('/primes/index', method: :get) do
   input name="digit" id="digit_column"
   br
   br
   input type="submit" value="  算出する  " class='btn btn-primary'
 
 br
-= @result
+  / = @result
 br
-
-<canvas id="myChart" width="200" height="100"></canvas>
+  = @rece 
+  |桁のまでの30桁毎に区切った素数出現グラフ
+<canvas id="myChart" width="200" height="50"></canvas>
 <script>draw_graph();</script>
