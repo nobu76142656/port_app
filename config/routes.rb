@@ -18,14 +18,10 @@ Rails.application.routes.draw do
   resources :users
 end
 
+
 # googlemap api
 #
 # rails g controller Apis index
-
-# 任意の位置にマーカー
-#
-# rails g model place name:string address:stiring latitude:float longitude:float
-
 
 # prime (素数)コントローラー
 #
