@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  root to: 'primes#index'
-  get '/primes/index', to: 'primes#index'
-  get '/primes/show', to: 'primes#show'
-  get '/primes/calcu', to: 'primes#calcu'
+  root to: 'apis#index'
+  get 'apis/index'
+
+  get 'primes/index', to: 'primes#index'
+  get 'primes/show', to: 'primes#show'
+  get 'primes/calcu', to: 'primes#calcu'
+
+  # get 'piemes/show'
 
 
   get '/login', to: 'sessions#new'
@@ -13,6 +17,15 @@ Rails.application.routes.draw do
   resources :tozans
   resources :users
 end
+
+# googlemap api
+#
+# rails g controller Apis index
+
+# 任意の位置にマーカー
+#
+# rails g model place name:string address:stiring latitude:float longitude:float
+
 
 # prime (素数)コントローラー
 #
