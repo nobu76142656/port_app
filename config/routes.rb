@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  root to: 'apis#index'
+  get root to: 'places#index'
+
+  get 'places/index'
+  get 'places/new'
+  get 'places/create'
+  post 'places/create'
+  resources :places
+
+  # root to: 'apis#index'
   get 'apis/index'
 
   get 'primes/index', to: 'primes#index'
@@ -18,10 +26,26 @@ Rails.application.routes.draw do
   resources :users
 end
 
+# skip_before_action :login_required
 
-# googlemap api
+# Rails5でGoogleMapsAPIを用い、複数のマーカーを表示する
+# https://qiita.com/yamaotoko4177/items/30b72766d013904452fa
+#
+# rails g model Place latitude:float longitude:float
+# rails g controller Places index
+# place = Place.new(name: "ルーツ", latitude: 35.442739, longitude: 139.634443)
+
+
+# 地名をマップ上に表示(未実装)
+# https://qiita.com/komakomako/items/c467da03104d391f7520
+#
+# rails g model Spot latitude:float longitude:float
+
+# googlemap apiをただ表示
+# https://rikulog.com/programing/google-map-api/
 #
 # rails g controller Apis index
+# rails destroy  controller Apis index
 
 # prime (素数)コントローラー
 #

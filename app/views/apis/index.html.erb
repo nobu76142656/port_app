@@ -1,41 +1,64 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>GoogleMapAPI</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
+
+<head>
+  <title>GoogleMapAPI</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+    <style type="text/css">
       #map {
-        height: 100%;
-      }
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
+        height: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+        width: 80%;
       }
     </style>
-  </head>
-  <body>
-    <h1>GoogleMapAPI</h1>
-    <div id="map" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
-    
+</head>
 
+<body>
+  <h1>GoogleMapAPI複数マーカー</h1>
 
-    <!-- jqueryの読み込む -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
-    <!-- google map api -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
+  <div id="map"></div>
 
-    <!-- js -->
-    <script type="text/javascript">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
+
+  <script type="text/javascript">
+
+    function initMap() {
+      var locations = [
+        ['Title A', 3.180967, 101.715546],
+        ['Title B', 3.200848, 101.616669],
+        ['Title C', 3.147372, 101.597443],
+        ['Title D', 3.19125, 101.710052]
+      ];
       var map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-          lat: 35.442739, //緯度を設定
-          lng: 139.634443 //経度を設定
-        },
-        zoom: 14 //地図のズームを設定
+        zoom: 12,
+        center: new google.maps.LatLng(3.171368, 101.653404),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
       });
-    </script>
-  </body>
+
+      var infowindow = new google.maps.InfoWindow;
+      var marker, i;
+
+      for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+          map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+          return function () {
+            infowindow.setContent(locations[i][0]);
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+      }
+    }
+  </script>
+
+
+
+</body>
+
 </html>

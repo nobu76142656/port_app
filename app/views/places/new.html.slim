@@ -1,0 +1,38 @@
+h1 場所の新規登録
+br
+
+= form_with model: [@place] do |f|
+  .form-group
+  = f.label :name, '場所の名前'
+  = f.text_field :name, class: 'form-control'
+  .form-group
+  = f.label :latitude, '緯度 例：35.442739'
+  = f.number_field :latitude, class: 'form-control'
+  .form-group
+  = f.label :latitude, '経度 例：139.634443'
+  = f.number_field :latitude, class: 'form-control'
+  .form-group
+  = f.submit '登録する', class: 'btn btn-primary'
+
+
+/ <table>
+/   <%= form_for @place, url:{action:'create'} do |f| %>
+/     <tr>
+/       <th>場所の名前</th>
+/       <th><%= f.text_field :name, { size:40 } %></th>
+/     </tr>
+/     <tr>
+/       <th>緯度 例：35.442739</th>
+/       <td><%= f.number_field :latitude, { size:10 } %></td>
+/     </tr>
+/     <tr>
+/       <th>経度 例：139.634443</th>
+/       <td><%= f.number_field :longitude, { size:10 } %></td>
+/     </tr>
+/     <tr>
+/       <th></th>
+/       <td><%= f.submit "登録" %></td>
+/     </tr>
+
+/   <% end %>
+/ </table>
