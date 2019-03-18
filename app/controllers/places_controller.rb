@@ -1,7 +1,7 @@
 class PlacesController < ApplicationController
   skip_before_action :login_required
   def index
-    @places = Place.first
+    @places = Place.all
     # @plases = @places.to_json
   end
 
@@ -21,6 +21,12 @@ class PlacesController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy
+    Place.find(params[:id]).destroy
+    flash[:success] = "場所の緯度経度情報を削除しました。"
+    redirect_to "places/index"
   end
 
   private

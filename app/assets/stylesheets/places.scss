@@ -1,3 +1,26 @@
 // Place all the styles related to the Places controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// table枠線スタイルシート
+<style type="text/css">
+  table {
+    border-collapse: collapse;
+  }
+
+  table th,
+  table td {
+    border: solid 1px black;
+    padding: 5px 20px;
+  }
+</style>
+
+.content {
+    width: 100px;          /* 横幅を固定して */
+    display: inline-block; /* インラインブロック化 */
+    vertical-align: top;   /* 上端を揃える */
+    margin: 5px 0px;
+    padding: 10px;
+    border: 2px solid green;
+    background-color: #ddffdd;
+}

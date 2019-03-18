@@ -1,3 +1,5 @@
+/ tips formで小数点以下を入力するには step を使う。
+
 h1 場所の新規登録
 br
 
@@ -7,12 +9,14 @@ br
   = f.text_field :name, class: 'form-control'
   .form-group
   = f.label :latitude, '緯度 例：35.442739'
-  = f.number_field :latitude, class: 'form-control'
+  = f.number_field :latitude, step: "0.000001", class: 'form-control'
   .form-group
-  = f.label :latitude, '経度 例：139.634443'
-  = f.number_field :latitude, class: 'form-control'
+  = f.label :longitude, '経度 例：139.634443'
+  = f.number_field :longitude, step: "0.000001", class: 'form-control'
   .form-group
   = f.submit '登録する', class: 'btn btn-primary'
+
+
 
 
 / <table>

@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   get 'places/index'
   get 'places/new'
   get 'places/create'
+  # get 'places/:id'
   post 'places/create'
+  delete 'places/destroy'
   resources :places
 
   # root to: 'apis#index'
@@ -15,7 +17,6 @@ Rails.application.routes.draw do
   get 'primes/calcu', to: 'primes#calcu'
 
   # get 'piemes/show'
-
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'

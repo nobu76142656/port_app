@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
 
+
+<html>
 <head>
   <title>GoogleMapAPI</title>
   <meta name="viewport" content="initial-scale=1.0">
@@ -17,16 +18,18 @@
 </head>
 <body>
   <h1>GoogleMapAPIマーカー付き</h1>
-  <%= @places.latitude %>
-  <br><br>
+
+  <!-- <td>#{p.name}</td>
+  <td>#{p.latitude}</td>
+  <td>#{p.longitude}</td> -->
 
 
-  <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡す-->
+  <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
   <%= javascript_tag do %>
-    window.place = <%= raw @places.to_json %>;
+    window.places = <%= raw @places.to_json %>;
   <% end %>
 
-
+  <!-- map表示HTML -->
   <div id="map" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
 
   <!-- jqueryの読み込む -->
@@ -37,26 +40,67 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
 
 
-  <!-- js -->
+  <!-- google map 表示 javascript -->
   <script type="text/javascript">
+    // for (var i = 0; i < place.length; i++) {
+    //     console.log(place[i]);
+    // }
+
+    // 地図の中心の緯度経度設定
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {
-        lat: place.latitude, //緯度を設定
+        lat: 35.442739, //緯度を設定
         lng: 139.634443 //経度を設定
       },
-      zoom: 14 //地図のズームを設定
+      zoom: 6 //地図のズームを設定
     });
 
 
-    // marker
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(place.latitude, 139.634443),
-      draggable: false,
-      map: map,
-      animation: google.maps.Animation.DROP
-    });
+
+    // 複数マーカー設定
+    for (var i = 0; i < places.length; i++) {
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(places[i].latitude, places[i].longitude),
+        draggable: false,
+        map: map,
+        animation: google.maps.Animation.DROP
+      });
+
+      // クリックした時の名称表示 ここから　未実装　
+      // https://qiita.com/yamaotoko4177/items/30b72766d013904452fa
+      // var contentString = "住所：places[i].name";
+      // var infowindow = new google.maps.InfoWindow({
+      //   content: contentString
+      // });
+      // marker.addListener('click', function () {
+      //   infowindow.open(map, marker, content);
+      // });
+    }
 
   </script>
 
+  <br>
+  <br>
+  <!-- 登録場所一覧 -->
+  <table class="table">
+    <thead class="thead-default bg-info text-white">
+      <tr>
+        <th>場所</th>
+        <th>緯度</th>
+        <th>経度</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @places.each do |p| %>
+      <tr>
+        <td><%= p.name %></td>
+        <td><%= p.latitude %></td>
+        <td><%= p.longitude %></td>
+        <td><%= link_to '削除', p, method: :delete, data: {confirm: "ユーザー「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </body>
 </html>
