@@ -2,12 +2,16 @@
 
 
 <html>
+
 <head>
   <title>GoogleMapAPI</title>
   <meta name="viewport" content="initial-scale=1.0">
   <meta charset="utf-8">
   <style>
-    #map { height: 100%; }
+    #map {
+      height: 100%;
+    }
+
     html,
     body {
       height: 100%;
@@ -16,6 +20,7 @@
     }
   </style>
 </head>
+
 <body>
   <h1>GoogleMapAPIマーカー付き</h1>
 
@@ -26,7 +31,7 @@
 
   <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
   <%= javascript_tag do %>
-    window.places = <%= raw @places.to_json %>;
+  window.places = <%= raw @places.to_json %>;
   <% end %>
 
   <!-- map表示HTML -->
@@ -37,7 +42,7 @@
 
 
   <!-- google map api -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=APIキー"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
 
 
   <!-- google map 表示 javascript -->
@@ -60,11 +65,13 @@
     // 複数マーカー設定
     for (var i = 0; i < places.length; i++) {
       var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(places[i].latitude, places[i].longitude),
+        position: new google.maps.LatLng(places[i].lat, places[i].lng),
         draggable: false,
         map: map,
         animation: google.maps.Animation.DROP
       });
+      
+
 
       // クリックした時の名称表示 ここから　未実装　
       // https://qiita.com/yamaotoko4177/items/30b72766d013904452fa
@@ -81,6 +88,7 @@
 
   <br>
   <br>
+
   <!-- 登録場所一覧 -->
   <table class="table">
     <thead class="thead-default bg-info text-white">
@@ -95,12 +103,15 @@
       <% @places.each do |p| %>
       <tr>
         <td><%= p.name %></td>
-        <td><%= p.latitude %></td>
-        <td><%= p.longitude %></td>
-        <td><%= link_to '削除', p, method: :delete, data: {confirm: "場所「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %></td>
+        <td><%= p.lat %></td>
+        <td><%= p.lng %></td>
+        <td>
+          <%= link_to '削除', p, method: :delete, data: {confirm: "ユーザー「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %>
+        </td>
       </tr>
       <% end %>
     </tbody>
   </table>
 </body>
+
 </html>
