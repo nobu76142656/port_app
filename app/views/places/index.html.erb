@@ -1,106 +1,86 @@
 <!DOCTYPE html>
-
-
 <html>
+
 <head>
-  <title>GoogleMapAPI</title>
-  <meta name="viewport" content="initial-scale=1.0">
   <meta charset="utf-8">
-  <style>
-    #map { height: 100%; }
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
+  <title>google map API V3 サンプル</title>
+
+
+  <!-- google map api -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
 </head>
+
 <body>
-  <h1>GoogleMapAPIマーカー付き</h1>
-
-  <!-- <td>#{p.name}</td>
-  <td>#{p.latitude}</td>
-  <td>#{p.longitude}</td> -->
-
-
   <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
   <%= javascript_tag do %>
     window.places = <%= raw @places.to_json %>;
   <% end %>
 
-  <!-- map表示HTML -->
-  <div id="map" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
-
-  <!-- jqueryの読み込む -->
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 
 
-  <!-- google map api -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=APIキー"></script>
+
+  <!-- 高さと幅は必ず指定する。 -->
+  <div id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
 
 
-  <!-- google map 表示 javascript -->
-  <script type="text/javascript">
-    // for (var i = 0; i < place.length; i++) {
-    //     console.log(place[i]);
-    // }
-
-    // 地図の中心の緯度経度設定
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: 35.442739, //緯度を設定
-        lng: 139.634443 //経度を設定
+<script>
+  function startGmap() {
+    // ns は google.maps.と書く手間を省くネームスペース
+    var ns = google.maps,
+      myLatlng = new ns.LatLng(35.687168, 139.757412),
+      mapElement = document.getElementById("mapDiv"),
+      mapOptions = {
+        zoom: 5,
+        center: myLatlng
       },
-      zoom: 6 //地図のズームを設定
-    });
-
-
+      map = new ns.Map(mapElement, mapOptions);
 
     // 複数マーカー設定
-    for (var i = 0; i < places.length; i++) {
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(places[i].latitude, places[i].longitude),
-        draggable: false,
-        map: map,
-        animation: google.maps.Animation.DROP
-      });
-
-      // クリックした時の名称表示 ここから　未実装　
-      // https://qiita.com/yamaotoko4177/items/30b72766d013904452fa
-      // var contentString = "住所：places[i].name";
-      // var infowindow = new google.maps.InfoWindow({
-      //   content: contentString
-      // });
-      // marker.addListener('click', function () {
-      //   infowindow.open(map, marker, content);
-      // });
+    var marker = [];
+    function placeMarker(){
+      for (var i = 0; i < places.length; i++) {
+        marker[i] = new ns.Marker({
+          position: new ns.LatLng(places[i].lat, places[i].lng),
+          map: map
+        });
+      }
     }
 
-  </script>
+    // マーカー配置
+    placeMarker();
+  }
 
-  <br>
-  <br>
-  <!-- 登録場所一覧 -->
-  <table class="table">
-    <thead class="thead-default bg-info text-white">
-      <tr>
-        <th>場所</th>
-        <th>緯度</th>
-        <th>経度</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @places.each do |p| %>
-      <tr>
-        <td><%= p.name %></td>
-        <td><%= p.latitude %></td>
-        <td><%= p.longitude %></td>
-        <td><%= link_to '削除', p, method: :delete, data: {confirm: "場所「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+  google.maps.event.addDomListener(window, 'load', startGmap);
+</script>
+
+
+<br>
+<br>
+
+
+<!-- 登録場所一覧 -->
+<table class="table">
+  <thead class="thead-default bg-info text-white">
+    <tr>
+      <th>場所</th>
+      <th>緯度</th>
+      <th>経度</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @places.each do |p| %>
+    <tr>
+      <td><%= p.name %></td>
+      <td><%= p.lat %></td>
+      <td><%= p.lng %></td>
+      <td>
+        <%= link_to '削除', p, method: :delete, data: {confirm: "ユーザー「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
 </body>
 </html>

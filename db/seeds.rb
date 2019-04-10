@@ -18,36 +18,36 @@
 
 @place = Place.new
 @place.name = 'ルーツ'
-@place.latitude = '35.442739'
-@place.longitude = '139.634443'
+@place.lat = '35.442739'
+@place.lng = '139.634443'
 @place.save
 
 @place = Place.new
 @place.name = '長野市'
-@place.latitude = '36.648708'
-@place.longitude = '138.192307'
+@place.lat = '36.648708'
+@place.lng = '138.192307'
 @place.save
 
 @place = Place.new
 @place.name = '金沢市'
-@place.latitude = '36.562500'
-@place.longitude = '136.646805'
+@place.lat = '36.562500'
+@place.lng = '136.646805'
 @place.save
 
 @place = Place.new
 @place.name = '奈良市'
-@place.latitude = '34.679359'
-@place.longitude = '135.836105'
+@place.lat = '34.679359'
+@place.lng = '135.836105'
 @place.save
 
 @place = Place.new
 @place.name = '岡山市'
-@place.latitude = '34.665218'
-@place.longitude = '133.922501'
+@place.lat = '34.665218'
+@place.lng = '133.922501'
 @place.save
 
 @place = Place.new
 @place.name = '福岡市'
-@place.latitude = '33.579788'
-@place.longitude = '130.402405'
+@place.lat = '33.579788'
+@place.lng = '130.402405'
 @place.save

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>google map API V3 サンプル</title>
+
+  
+  <!-- google map api -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
+</head>
+
+<body>
+  <h1>googlemapAPI</h1>
+
+
+  <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
+  <%= javascript_tag do %>
+    window.places = <%= raw @places.to_json %>;
+  <% end %>
+
+  <!-- 高さと幅は必ず指定する。 -->
+  <div id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
+
+
+<script>
+  // ns は google.maps.と書く手間を省くもの
+  function startGmap() {
+    var ns = google.maps,
+      myLatlng = new ns.LatLng(35.442739, 139.634443),
+      mapElement = document.getElementById("mapDiv"),
+      mapOptions = {
+        zoom: 14,
+        center: myLatlng
+      },
+      map = new ns.Map(mapElement, mapOptions),
+
+
+      marker = new ns.Marker({
+        position: myLatlng,
+        map: map
+      }),
+
+
+      
+      infoWindow = new ns.InfoWindow({
+        content: "こんにちは"
+      });
+
+    // 吹き出し表示
+    function setInfoWindow() {
+      infoWindow.open(map, marker);
+    }
+
+    // マーカーにイベント設定
+    ns.event.addListener(marker, 'click', setInfoWindow);
+
+    // 初期の吹き出し表示
+    // その1
+    infoWindow.open(map, marker);
+
+    // その2
+    // setInfoWindow();
+
+    // その3
+    // ns.event.trigger(marker, 'click');
+  }
+
+  google.maps.event.addDomListener(window, 'load', startGmap);
+</script>
+
+
+</body>
+</html>
