@@ -5,82 +5,116 @@
   <meta charset="utf-8">
   <title>google map API V3 サンプル</title>
 
-
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
   <!-- google map api -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
-</head>
-
-<body>
   <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
   <%= javascript_tag do %>
     window.places = <%= raw @places.to_json %>;
   <% end %>
+</head>
+<script>
+  // jsonを配列に変換
+  var json_text = '{ "a" : 100, "b" : 200, "c" : 300 }';
+  var arr = JSON.parse(json_text);
+  console.log(arr);
+
+  // 配列をjsonに変換
+  var arr = ["a", "b", "c"];
+  var json_text = JSON.stringify(places);
+  console.log(json_text);
+
+  // 多次元連想配列表示 代入
+  var pl_array = [];
+  for (p in places) {
+    pl_array.push(places[p].name, places[p].lat, places[p].lng);
+  }
+
+  // 1次元配列を2次元配列に変換メソッド
+  function splitArray(array, part) {
+    var tmp = [];
+    for (var i = 0; i < array.length; i += part) {
+      tmp.push(array.slice(i, i + part));
+    }
+    return tmp;
+  }
+  // 1次元配列を2次元配列に変換
+  var pl_array_re = splitArray(pl_array, 3);
+  // console.log(pl_array_re);
 
 
+  // var pl_array = [["東京", 35.681391, 139.766103],
+  //                ["新宿", 35.689729, 139.700464],
+  //                ["品川", 35.62876, 139.738999]
+  //               ];
+
+
+  jQuery(function ($) {
+    var infoWindow;
+    var ns = google.maps;
+    var mapOptions = {
+      zoom: 5,
+      center: new ns.LatLng(35.665595, 139.739)
+    };
+
+    var map = new ns.Map($("#mapDiv")[0], mapOptions);
+
+    var places = new ns.MVCArray(pl_array_re);
+
+    places.forEach(function (place) {
+      var marker = new ns.Marker({
+        position: new ns.LatLng(place[1], place[2]),
+        map: map
+      });
+
+      ns.event.addListener(marker, 'click', function () {
+        if (!infoWindow) {
+          infoWindow = new ns.InfoWindow();
+        }
+        // 使い回すので、setContentでで中身を更新してからopenする。
+        infoWindow.setContent(place[0]);
+        infoWindow.open(map, marker);
+      });
+    }); // forEachの終了
+  });
+</script>
+<body>
 
 
   <!-- 高さと幅は必ず指定する。 -->
   <div id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
 
 
-<script>
-  function startGmap() {
-    // ns は google.maps.と書く手間を省くネームスペース
-    var ns = google.maps,
-      myLatlng = new ns.LatLng(35.687168, 139.757412),
-      mapElement = document.getElementById("mapDiv"),
-      mapOptions = {
-        zoom: 5,
-        center: myLatlng
-      },
-      map = new ns.Map(mapElement, mapOptions);
-
-    // 複数マーカー設定
-    var marker = [];
-    function placeMarker(){
-      for (var i = 0; i < places.length; i++) {
-        marker[i] = new ns.Marker({
-          position: new ns.LatLng(places[i].lat, places[i].lng),
-          map: map
-        });
-      }
-    }
-
-    // マーカー配置
-    placeMarker();
-  }
-
-  google.maps.event.addDomListener(window, 'load', startGmap);
-</script>
+  <br>
+  <br>
 
 
-<br>
-<br>
+  <!-- 登録場所一覧 -->
+  <table class="table">
+    <thead class="thead-default bg-info text-white">
+      <tr>
+        <th>場所</th>
+        <th>緯度</th>
+        <th>経度</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @places.each do |p| %>
+      <tr>
+        <td><%= p.name %></td>
+        <td><%= p.lat %></td>
+        <td><%= p.lng %></td>
+        <td>
+          <%= link_to '削除', p, method: :delete, data: {confirm: "ユーザー「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 
-<!-- 登録場所一覧 -->
-<table class="table">
-  <thead class="thead-default bg-info text-white">
-    <tr>
-      <th>場所</th>
-      <th>緯度</th>
-      <th>経度</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @places.each do |p| %>
-    <tr>
-      <td><%= p.name %></td>
-      <td><%= p.lat %></td>
-      <td><%= p.lng %></td>
-      <td>
-        <%= link_to '削除', p, method: :delete, data: {confirm: "ユーザー「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
-
+  
 </body>
+
 </html>
