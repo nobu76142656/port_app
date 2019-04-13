@@ -5,8 +5,8 @@ br
 
 = form_with model: [@place] do |f|
   .form-group
-  = f.label :name, '場所の名前'
-  = f.text_field :name, class: 'form-control'
+  = f.label :address, '場所の名前や住所'
+  = f.text_field :address, class: 'form-control'
   .form-group
   = f.label :lat, '緯度 例：35.442739'
   = f.number_field :lat, step: "0.000001", class: 'form-control'
@@ -17,26 +17,3 @@ br
   = f.submit '登録する', class: 'btn btn-primary'
 
 
-
-
-/ <table>
-/   <%= form_for @place, url:{action:'create'} do |f| %>
-/     <tr>
-/       <th>場所の名前</th>
-/       <th><%= f.text_field :name, { size:40 } %></th>
-/     </tr>
-/     <tr>
-/       <th>緯度 例：35.442739</th>
-/       <td><%= f.number_field :latitude, { size:10 } %></td>
-/     </tr>
-/     <tr>
-/       <th>経度 例：139.634443</th>
-/       <td><%= f.number_field :longitude, { size:10 } %></td>
-/     </tr>
-/     <tr>
-/       <th></th>
-/       <td><%= f.submit "登録" %></td>
-/     </tr>
-
-/   <% end %>
-/ </table>

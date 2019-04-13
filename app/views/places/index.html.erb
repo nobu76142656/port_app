@@ -3,12 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <title>google map API V3 サンプル</title>
+  <title>google map API 複数吹き出し</title>
 
   <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
   <!-- google map api -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
   <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
+
   <%= javascript_tag do %>
     window.places = <%= raw @places.to_json %>;
   <% end %>
@@ -24,10 +25,11 @@
   var json_text = JSON.stringify(places);
   console.log(json_text);
 
+
   // 多次元連想配列表示 代入
   var pl_array = [];
   for (p in places) {
-    pl_array.push(places[p].name, places[p].lat, places[p].lng);
+    pl_array.push(places[p].address, places[p].lat, places[p].lng);
   }
 
   // 1次元配列を2次元配列に変換メソッド
@@ -49,6 +51,12 @@
   //               ];
 
 
+  // ランダム緯度経度設定
+  // 地名から取るバージョン
+   
+
+
+
   jQuery(function ($) {
     var infoWindow;
     var ns = google.maps;
@@ -59,7 +67,11 @@
 
     var map = new ns.Map($("#mapDiv")[0], mapOptions);
 
+    // データベースからの読み込み
     var places = new ns.MVCArray(pl_array_re);
+
+    // ランダム緯度経度読み込み
+    // var places = new ns.MVCArray(pl_a_random);
 
     places.forEach(function (place) {
       var marker = new ns.Marker({
@@ -84,6 +96,8 @@
   <!-- 高さと幅は必ず指定する。 -->
   <div id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
 
+  <br>
+
 
   <br>
   <br>
@@ -102,11 +116,11 @@
     <tbody>
       <% @places.each do |p| %>
       <tr>
-        <td><%= p.name %></td>
+        <td><%= p.address %></td>
         <td><%= p.lat %></td>
         <td><%= p.lng %></td>
         <td>
-          <%= link_to '削除', p, method: :delete, data: {confirm: "ユーザー「#{p.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %>
+          <%= link_to '削除', p, method: :delete, data: {confirm: "ユーザー「#{p.address}」を削除します。よろしいですか？"}, class: 'btn btn-danger' %>
         </td>
       </tr>
       <% end %>

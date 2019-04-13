@@ -69,4 +69,7 @@ gem 'ransack'
 gem 'chart-js-rails', '~> 0.1.4'
 gem 'gon', '~> 6.2.0'
 gem 'geocoder'
+gem 'http'
+gem 'webdrivers'
+gem 'csv'
 

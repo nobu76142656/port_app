@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   resources :users
 end
 
+# 郵便番号住所モデル
+
+
 # skip_before_action :login_required
 
 # Rails5でGoogleMapsAPIを用い、複数のマーカーを表示する
