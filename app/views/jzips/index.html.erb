@@ -1,0 +1,12 @@
+<h1>Jzips#index</h1>
+<% r = random_send %>
+
+<%= form_tag('/jzips/show', method: :get) do %>
+  
+  <input name="random_id" value=<%= r %>>
+  
+  <br>
+  <br>
+  <input type="submit" value="  送る  ">
+<% end %>
+  

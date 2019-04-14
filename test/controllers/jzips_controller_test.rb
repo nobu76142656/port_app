@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class ApisControllerTest < ActionDispatch::IntegrationTest
+class JzipsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get apis_index_url
+    get jzips_index_url
     assert_response :success
   end
 

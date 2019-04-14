@@ -3,12 +3,9 @@ class PlacesController < ApplicationController
   include PlacesHelper
 
   def index
+    @place = Place.new
     @places = Place.all
-
-    # jzipcode = JZipCode.new("jzipcode.db")
-    # jzipcode.create("KEN_ALL.CSV")
-    # @zip_r = jzipcode.find_by_code('1060031')
-    # @plases = @places.to_json
+    @jzip = Jzip.find_by(id: params[:random_id])
   end
 
   def show
@@ -18,8 +15,14 @@ class PlacesController < ApplicationController
     @place = Place.new
   end
 
+
   def create
-    @place = Place.new(place_params)
+     # ランダムの数字を受け取り地域名にし@place.addressにはできている。saveがされないlat,lng情報がない。
+    @place = Jzip.find_by(id: params[:address])
+
+    # @jzip = Jzip.find_by(id: params[:address])
+    # @place = Place.new(@jzip)
+    # @place = Place.new(place_params)
 
     if @place.save
       flash[:notice] = "場所情報を「#{@place.address}」を登録しました"
@@ -39,5 +42,6 @@ class PlacesController < ApplicationController
 
   def place_params
     params.require(:place).permit(:lat, :lng, :address)
+    # params.require(:place).permit(:address)
   end
 end

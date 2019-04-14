@@ -1,4 +1,7 @@
 module PlacesHelper
+  def random_send
+    rand = rand(100000)
+  end
 
   # def test_read()
   #   pattern = Regexp.new("二銭銅貨")

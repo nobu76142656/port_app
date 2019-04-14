@@ -72,4 +72,3 @@ gem 'geocoder'
 gem 'http'
 gem 'webdrivers'
 gem 'csv'
-

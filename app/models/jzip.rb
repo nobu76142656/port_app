@@ -1,0 +1,2 @@
+class Jzip < ApplicationRecord
+end

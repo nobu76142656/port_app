@@ -97,10 +97,49 @@
   <div id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
 
   <br>
+  <br>
+
+  <!-- ランダムの数字を生成し地名と郵便番号を取る -->
+  <% r = random_send %>
+  <%= form_tag('/places/index', method: :get) do %>
+    <input name="random_id" value=<%= r %>>
+
+    <br><br>
+    <input type="submit" value="  送る  ">
+  <% end %>
+
+  <!-- 名称だけは取れる -->
+  <% if (@jzip) %>
+    <%= @jzip.code %><%= @jzip.pref %><%= @jzip.city %><%= @jzip.address %>
+  <% end %>
+ 
+  <br><br>
+
+  <!-- ランダムに生成し緯度経度を登録 -->
+  <!-- = form_with model: [@place] do |f|
+  .form-group
+  = f.label :address, '場所の名前や住所'
+  = f.text_field :address, class: 'form-control' -->
 
 
-  <br>
-  <br>
+  <%= form_for @place do |f| %>
+    <input name="address" value=<%= r %>>
+    <br><br>
+    <input type="submit" value="  生成  ">
+  <% end %>
+
+
+
+  <br><br>
+  <!-- 地域名のみで登録成功 -->
+  <%= form_for @place do |f| %>
+    <%= f.label :address, '場所の名前や住所' %>
+    <%= f.text_field :address, class: 'form-control' %>
+
+    <%= f.submit '登録する', class: 'btn btn-primary' %>
+  <% end %>
+
+  <br><br>
 
 
   <!-- 登録場所一覧 -->

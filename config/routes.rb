@@ -1,22 +1,27 @@
 Rails.application.routes.draw do
-  get root to: 'places#index'
 
+
+  get 'jzips/index'
+  get root to: 'jzips#index'
+  resources :jzips
+
+  
   get 'places/index'
   get 'places/new'
   get 'places/create'
   # get 'places/:id'
   post 'places/create'
+  post 'places/index'
   delete 'places/destroy'
   resources :places
 
-  # root to: 'apis#index'
-  get 'apis/index'
+
 
   get 'primes/index', to: 'primes#index'
   get 'primes/show', to: 'primes#show'
   get 'primes/calcu', to: 'primes#calcu'
-
   # get 'piemes/show'
+
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -28,6 +33,12 @@ Rails.application.routes.draw do
 end
 
 # 郵便番号住所モデル
+# Jzip
+# rails g model Jzip code:text pref:text city:text address:text
+# rails g controller Jzips index
+
+# 郵便番号 都道府県名 市区町村名 町域名  
+# code    pref     city     address
 
 
 # skip_before_action :login_required
