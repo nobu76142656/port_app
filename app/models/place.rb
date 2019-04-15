@@ -2,6 +2,7 @@ class Place < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: :address_changed?
 
+
   private
   def geocode
     uri = URI.escape("https://maps.googleapis.com/maps/api/geocode/json?address="+self.address.gsub(" ", "")+"&key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk")

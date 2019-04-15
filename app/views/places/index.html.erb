@@ -53,9 +53,6 @@
 
   // ランダム緯度経度設定
   // 地名から取るバージョン
-   
-
-
 
   jQuery(function ($) {
     var infoWindow;
@@ -92,52 +89,27 @@
 </script>
 <body>
 
-
   <!-- 高さと幅は必ず指定する。 -->
   <div id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
-
-  <br>
-  <br>
-
-  <!-- ランダムの数字を生成し地名と郵便番号を取る -->
-  <% r = random_send %>
-  <%= form_tag('/places/index', method: :get) do %>
-    <input name="random_id" value=<%= r %>>
-
-    <br><br>
-    <input type="submit" value="  送る  ">
-  <% end %>
-
-  <!-- 名称だけは取れる -->
-  <% if (@jzip) %>
-    <%= @jzip.code %><%= @jzip.pref %><%= @jzip.city %><%= @jzip.address %>
-  <% end %>
- 
   <br><br>
+  <!-- ランダムの数列取得 -->
+  <% r = random_send %>
 
   <!-- ランダムに生成し緯度経度を登録 -->
   <!-- = form_with model: [@place] do |f|
   .form-group
   = f.label :address, '場所の名前や住所'
   = f.text_field :address, class: 'form-control' -->
-
-
+  
   <%= form_for @place do |f| %>
     <input name="address" value=<%= r %>>
-    <br><br>
-    <input type="submit" value="  生成  ">
+    <input type="submit" value="  ランダム数値から生成  ">
   <% end %>
 
+  <br>
 
-
-  <br><br>
-  <!-- 地域名のみで登録成功 -->
-  <%= form_for @place do |f| %>
-    <%= f.label :address, '場所の名前や住所' %>
-    <%= f.text_field :address, class: 'form-control' %>
-
-    <%= f.submit '登録する', class: 'btn btn-primary' %>
-  <% end %>
+  <!-- 複数マーカーランダム生成ボタン -->
+  <%= link_to '複数マーカーランダム生成ボタン', '/places/malti_places', method: :get, class: 'btn btn-primary' %>
 
   <br><br>
 
@@ -153,6 +125,7 @@
       </tr>
     </thead>
     <tbody>
+      <%= link_to '全削除', 'destroy_all', method: :delete, class: 'btn btn-danger' %>
       <% @places.each do |p| %>
       <tr>
         <td><%= p.address %></td>
@@ -165,9 +138,28 @@
       <% end %>
     </tbody>
   </table>
-
-
   
+  <br><br>
+  <!-- ランダムの数字を生成し地名と郵便番号を取る -->
+  <%= form_tag('/places/index', method: :get) do %>
+  <input name="random_id" value=<%= r %>>
+  <br><br>
+  <input type="submit" value="  送る  ">
+  <% end %>
+  <% if (@jzip) %>
+  <%= @jzip.code %><%= @jzip.pref %><%= @jzip.city %><%= @jzip.address %>
+  <% end %>
+
+
+  <br><br>
+  <!-- 地域名で登録成功 -->
+  <%= form_for @place do |f| %>
+  <%= f.label :address, '場所の名前や住所' %>
+  <%= f.text_field :address, class: 'form-control' %>
+  
+  <%= f.submit '登録する', class: 'btn btn-primary' %>
+  <% end %>
+
 </body>
 
 </html>

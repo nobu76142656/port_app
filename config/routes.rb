@@ -2,17 +2,20 @@ Rails.application.routes.draw do
 
 
   get 'jzips/index'
-  get root to: 'jzips#index'
+  # get root to: 'jzips#index'
   resources :jzips
 
-  
+
+  get root to: 'places#index'
   get 'places/index'
   get 'places/new'
   get 'places/create'
+  get 'places/malti_places'
   # get 'places/:id'
   post 'places/create'
   post 'places/index'
   delete 'places/destroy'
+  delete 'places/destroy_all'
   resources :places
 
 

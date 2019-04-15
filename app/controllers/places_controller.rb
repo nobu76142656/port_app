@@ -15,14 +15,32 @@ class PlacesController < ApplicationController
     @place = Place.new
   end
 
+  def jzip
+    @jzip = Jzip.find_by(id: params[:address])
+    @place = @jzip.pref
+  end
+
+  def malti_places
+    @jzip_random = []
+    5.times do
+      @jzip_random << random_send
+    end
+    render :create
+
+  end
 
   def create
-     # ランダムの数字を受け取り地域名にし@place.addressにはできている。saveがされないlat,lng情報がない。
-    @place = Jzip.find_by(id: params[:address])
+    # {"id":1,"lat":35.4436739,"lng":139.6379639,"created_at":"2019-04-13T03:46:16.116Z","updated_at":"2019-04-13T03:46:16.116Z","address":"横浜市"}
 
-    # @jzip = Jzip.find_by(id: params[:address])
-    # @place = Place.new(@jzip)
-    # @place = Place.new(place_params)
+    @jzip = Jzip.find_by(id: params[:address])
+    # <Jzip id: 58828, code: "3850012", pref: "長野県", city: "佐久市", address: "根々井", created_at: "2019-04-13 01:59:21", updated_at: "2019-04-13 01:59:21">
+    ad_hash = Hash.new
+    # hash = {R: "Ruby", P: "Perl"}
+    ad_hash_st = @jzip.pref + @jzip.city + @jzip.address
+    ad_hash = {address: ad_hash_st}
+
+    @place = Place.new(ad_hash)
+    # @place = Place.new({"address":"横浜市"})
 
     if @place.save
       flash[:notice] = "場所情報を「#{@place.address}」を登録しました"
@@ -35,6 +53,11 @@ class PlacesController < ApplicationController
   def destroy
     Place.find(params[:id]).destroy
     # flash[:notice] = "場所情報を「#{@place.address}」を削除しました"
+    redirect_to places_url
+  end
+  
+  def destroy_all
+    Place.destroy_all
     redirect_to places_url
   end
 
