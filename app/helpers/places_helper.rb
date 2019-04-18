@@ -1,6 +1,6 @@
 module PlacesHelper
   def random_send
-    rand = rand(100000)
+    rand = rand(124250)
   end
 
   # def test_read()

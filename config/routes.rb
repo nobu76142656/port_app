@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  # GETはウェブサーバーからデータを取得する時に用い、POSTはウェブサーバーの状態を変更する時に用いる
+  # アクションはブラウザーへのレスポンスを作成するためにビューを選ぶ。特に指定しなければアクションと同名のビューが選ばれる
+
+  # ルーティング例
+  # /aboutというパスをaboutアクションと結びつく。about_pathメソッドが/aboutを返すようになる。
+  # get "about" => "top#about", as: "about"
 
 
   get 'jzips/index'
@@ -23,7 +29,6 @@ Rails.application.routes.draw do
   get 'primes/index', to: 'primes#index'
   get 'primes/show', to: 'primes#show'
   get 'primes/calcu', to: 'primes#calcu'
-  # get 'piemes/show'
 
 
   get '/login', to: 'sessions#new'

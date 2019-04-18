@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title>google map API 複数吹き出し</title>
+  <style>
+    .side-left {
+      float: left;
+    }
+    .side-right {
+      float: right;
+    }
+     /*
+    .side-left {
+      display: flex;
+    }
+    .side-right {
+      display: flex;
+    } */
+  </style>
 
+  <!-- JQuery 読み込み -->
   <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
   <!-- google map api -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
@@ -32,7 +47,7 @@
     pl_array.push(places[p].address, places[p].lat, places[p].lng);
   }
 
-  // 1次元配列を2次元配列に変換メソッド
+  // 1次元配列を2次元配列に変換するメソッド
   function splitArray(array, part) {
     var tmp = [];
     for (var i = 0; i < array.length; i += part) {
@@ -90,29 +105,26 @@
 <body>
 
   <!-- 高さと幅は必ず指定する。 -->
-  <div id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div>
-  <br><br>
-  <!-- ランダムの数列取得 -->
-  <% r = random_send %>
+  <div class="side-left" id="mapDiv" style="height: 500px; width: 500px"></div>
 
-  <!-- ランダムに生成し緯度経度を登録 -->
-  <!-- = form_with model: [@place] do |f|
-  .form-group
-  = f.label :address, '場所の名前や住所'
-  = f.text_field :address, class: 'form-control' -->
+  <!-- <div class="side-left" id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div> -->
+
   
+  <div class="side-right">
+  <!-- helper内random_sendメソッドを使用 -->
+  <p>目的地の数を入力してください</p>
   <%= form_for @place do |f| %>
-    <input name="address" value=<%= r %>>
-    <input type="submit" value="  ランダム数値から生成  ">
+    <!-- <input name="id" value=<%= random_send %>> -->
+    <input name="times">
+    <input type="submit" value="  目的地数入力  ">
   <% end %>
 
   <br>
 
   <!-- 複数マーカーランダム生成ボタン -->
-  <%= link_to '複数マーカーランダム生成ボタン', '/places/malti_places', method: :get, class: 'btn btn-primary' %>
+  <!-- <%= link_to '複数マーカーランダム生成ボタン', '/places/malti_places', method: :get, class: 'btn btn-primary' %> -->
 
   <br><br>
-
 
   <!-- 登録場所一覧 -->
   <table class="table">
@@ -142,12 +154,12 @@
   <br><br>
   <!-- ランダムの数字を生成し地名と郵便番号を取る -->
   <%= form_tag('/places/index', method: :get) do %>
-  <input name="random_id" value=<%= r %>>
-  <br><br>
-  <input type="submit" value="  送る  ">
+    <input name="random_id" value=<%= random_send %>>
+    <br><br>
+    <input type="submit" value="  送る  ">
   <% end %>
   <% if (@jzip) %>
-  <%= @jzip.code %><%= @jzip.pref %><%= @jzip.city %><%= @jzip.address %>
+    <%= @jzip.code %><%= @jzip.pref %><%= @jzip.city %><%= @jzip.address %>
   <% end %>
 
 
@@ -159,6 +171,8 @@
   
   <%= f.submit '登録する', class: 'btn btn-primary' %>
   <% end %>
+
+  </div>
 
 </body>
 
