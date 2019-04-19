@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # HEROKU
+  # https://mighty-shore-51114.herokuapp.com/
+  
   # GETはウェブサーバーからデータを取得する時に用い、POSTはウェブサーバーの状態を変更する時に用いる
   # アクションはブラウザーへのレスポンスを作成するためにビューを選ぶ。特に指定しなければアクションと同名のビューが選ばれる
 
