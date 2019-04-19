@@ -1,0 +1,2 @@
+module SyanhaisHelper
+end
