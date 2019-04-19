@@ -9,6 +9,7 @@
     }
     .side-right {
       float: right;
+      width: 50%;
     }
      /*
     .side-left {
@@ -33,12 +34,10 @@
   // jsonを配列に変換
   var json_text = '{ "a" : 100, "b" : 200, "c" : 300 }';
   var arr = JSON.parse(json_text);
-  console.log(arr);
 
   // 配列をjsonに変換
   var arr = ["a", "b", "c"];
   var json_text = JSON.stringify(places);
-  console.log(json_text);
 
 
   // 多次元連想配列表示 代入
@@ -57,7 +56,6 @@
   }
   // 1次元配列を2次元配列に変換
   var pl_array_re = splitArray(pl_array, 3);
-  // console.log(pl_array_re);
 
 
   // var pl_array = [["東京", 35.681391, 139.766103],
@@ -68,51 +66,125 @@
 
   // ランダム緯度経度設定
   // 地名から取るバージョン
-
   jQuery(function ($) {
     var infoWindow;
-    var ns = google.maps;
+    // var ns = google.maps;
     var mapOptions = {
       zoom: 5,
-      center: new ns.LatLng(35.665595, 139.739)
+      center: new google.maps.LatLng(35.665595, 139.739)
     };
 
-    var map = new ns.Map($("#mapDiv")[0], mapOptions);
+    var map = new google.maps.Map($("#mapDiv")[0], mapOptions);
 
     // データベースからの読み込み
-    var places = new ns.MVCArray(pl_array_re);
+    var places = new google.maps.MVCArray(pl_array_re);
+    // ルート検索
+    var request = {};
+
+    // ランダム生成された緯度経度を入れていく
+    var r_route = [];
+
+    // waypointを使うための配列設定
+    console.log("pl_array_re : " + pl_array_re[1][1]);
+    var way_array = [];
+    for (i = 0; i < pl_array_re.length; i++) {
+      way_array.push(pl_array_re[i][1]);
+      way_array.push(pl_array_re[i][2]);
+    }
+    console.log("shift・pop前 : " + way_array);
+    // 1番目の場所と最後の場所の緯度経度を削除
+    way_array.shift();
+    way_array.shift();
+    way_array.pop();
+    way_array.pop();
+
+    var wl = 0;
+    wl = way_array.length;
+
+    console.log("way_array.length : " + wl);
+    console.log("way_array : " + way_array);
 
     // ランダム緯度経度読み込み
-    // var places = new ns.MVCArray(pl_a_random);
-
+    // var places = new google.maps.MVCArray(pl_a_random);
+    // place[場所名, 緯度, 経度]
     places.forEach(function (place) {
-      var marker = new ns.Marker({
-        position: new ns.LatLng(place[1], place[2]),
+
+      var way_temp = 0; // way_array の読み込み位置制御変数
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(place[1], place[2]),
         map: map
       });
 
-      ns.event.addListener(marker, 'click', function () {
+      // ルート検索
+      // ランダム生成された場所を配列に入れる
+      r_route.push(place[1])
+      r_route.push(place[2])
+      request = {
+        origin: new google.maps.LatLng(r_route[0], r_route[1]), // 出発地
+        destination: new google.maps.LatLng(r_route.slice(-2)[0], r_route.slice(-1)[0]), // 目的地
+
+        // 数の指定ができない
+        waypoints: [ // 経由地点(指定なしでも可)
+          { location: new google.maps.LatLng(way_array[wl - wl + 0], way_array[wl - wl + 1 + 0]) },
+          { location: new google.maps.LatLng(way_array[wl - wl + 2], way_array[wl - wl + 1 + 2]) },
+          { location: new google.maps.LatLng(way_array[wl - wl + 4], way_array[wl - wl + 1 + 4]) },
+          { location: new google.maps.LatLng(way_array[wl - wl + 6], way_array[wl - wl + 1 + 6]) },
+          { location: new google.maps.LatLng(way_array[wl - wl + 8], way_array[wl - wl + 1 + 8]) },
+          // { location: new google.maps.LatLng(way_array[wl - wl + 10], way_array[wl - wl + 1 + 10]) },
+          // { location: new google.maps.LatLng(way_array[wl - wl + 12], way_array[wl - wl + 1 + 12]) },
+        ],
+
+        // waypoints: [ // 経由地点(指定なしでも可)
+        //   { location: new google.maps.LatLng(35.630152, 139.74044) },
+        //   { location: new google.maps.LatLng(35.507456, 139.617585) },
+        //   { location: new google.maps.LatLng(35.25642, 139.154904) },
+        // ],
+
+        travelMode: google.maps.DirectionsTravelMode.DRIVING, // 交通手段(歩行。DRIVINGの場合は車)
+      };
+
+      google.maps.event.addListener(marker, 'click', function () {
         if (!infoWindow) {
-          infoWindow = new ns.InfoWindow();
+          infoWindow = new google.maps.InfoWindow();
         }
         // 使い回すので、setContentでで中身を更新してからopenする。
         infoWindow.setContent(place[0]);
         infoWindow.open(map, marker);
       });
+      // console.log("forEachの中 : " + r_route)
+      way_temp += 2;
     }); // forEachの終了
+
+    // console.log("forEach終了後 : " + r_route)
+
+    // ルート検索関連
+    //
+    var d = new google.maps.DirectionsService(); // ルート検索オブジェクト
+    var r = new google.maps.DirectionsRenderer({ // ルート描画オブジェクト
+      map: map, // 描画先の地図
+      preserveViewport: true, // 描画後に中心点をずらさない
+    });
+    // ルート検索
+    d.route(request, function (result, status) {
+      // OKの場合ルート描画
+      if (status == google.maps.DirectionsStatus.OK) {
+        r.setDirections(result);
+      }
+    });
   });
+
 </script>
 <body>
 
   <!-- 高さと幅は必ず指定する。 -->
-  <div class="side-left" id="mapDiv" style="height: 500px; width: 500px"></div>
+  <div class="side-left" id="mapDiv" style="height: 500px; width: 45%"></div>
 
   <!-- <div class="side-left" id="mapDiv" style="height: 500px; width: 80%; margin: 2rem auto 0;"></div> -->
 
   
   <div class="side-right">
   <!-- helper内random_sendメソッドを使用 -->
-  <p>目的地の数を入力してください</p>
+  <p>目的地の数を入力してください(現在7箇所限定)</p>
   <%= form_for @place do |f| %>
     <!-- <input name="id" value=<%= random_send %>> -->
     <input name="times">
@@ -137,7 +209,7 @@
       </tr>
     </thead>
     <tbody>
-      <%= link_to '全削除', 'destroy_all', method: :delete, class: 'btn btn-danger' %>
+      <%= link_to '全削除', '/places/destroy_all', method: :delete, class: 'btn btn-danger' %>
       <% @places.each do |p| %>
       <tr>
         <td><%= p.address %></td>
