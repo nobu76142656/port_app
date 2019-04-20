@@ -23,7 +23,7 @@ class PlacesController < ApplicationController
   def malti_places
     @jzip_random = []
     5.times do
-      @jzip_random << random_send
+      @jzip_random << random_send()
     end
     render :create
 
@@ -34,7 +34,7 @@ class PlacesController < ApplicationController
     
     jzip_random = []
     params[:times].to_i.times do
-      jzip_random << random_send
+      jzip_random << random_send()
     end
 
     jzip_random.length.times do |i|

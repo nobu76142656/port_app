@@ -1,5 +1,5 @@
 module PlacesHelper
-  def random_send
+  def random_send()
     rand = rand(124250)
   end
 
