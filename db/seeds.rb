@@ -6,11 +6,11 @@
 #foreachは、ファイル（hoge.csv）の各行を引数として、ブロック(do~endまでを範囲とする『引数のかたまり』)を繰り返し実行する
 #rowには、読み込まれた行が代入される
 
-require "csv"
-CSV.foreach('db/KEN_ALL.CSV',encoding: 'Shift_JIS:UTF-8') do |row|
-  # Jzipテーブルの各カラムに、各行のn番目の値を代入している。
-  Jzip.create(:code => row[2], :pref => row[6], :city => row[7], :address => row[8])
-end
+# require "csv"
+# CSV.foreach('db/KEN_ALL.CSV',encoding: 'Shift_JIS:UTF-8') do |row|
+#   # Jzipテーブルの各カラムに、各行のn番目の値を代入している。
+#   Jzip.create(:code => row[2], :pref => row[6], :city => row[7], :address => row[8])
+# end
 
 # rails g model Jzip code:string pref:string city:text address:text
 # 郵便番号 都道府県名 市区町村名 町域名    検索用アドレス
@@ -19,6 +19,31 @@ end
 # 必要なデータがCVSファイルの何番目のカラムかを示す定数
 # CSV_COLUMN = {code: 2, pref: 6, city: 7, addr: 8}
 # =======================================================================
+
+@word = Word.new
+@word.english = 'authenticated'
+@word.japanese = '認証'
+@word.save
+
+@word = Word.new
+@word.english = 'expires'
+@word.japanese = '有効期限'
+@word.save
+
+@word = Word.new
+@word.english = 'attribute'
+@word.japanese = '属性'
+@word.save
+
+@word = Word.new
+@word.english = 'assert'
+@word.japanese = '主張する'
+@word.save
+
+@word = Word.new
+@word.english = 'equal'
+@word.japanese = '等しい'
+@word.save
 
 # @user = User.new
 # @user.name = 'aoki'

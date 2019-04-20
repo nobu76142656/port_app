@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>上海クローン</title>
+  <meta charset="UTF-8">
+
+  <script>
+    var ctx;
+
+    function init() {
+      // canvasへの参照を取得
+      var canvas = document.getElementById("canvas");
+
+      // コンテキストの取得
+      // ここのctxが絵筆などの情報を格納するオブジェクトとなる。2dは2次元。
+      ctx = canvas.getContext("2d");
+
+      // コンテキストの設定
+      // コンテキストを取得したらプロバティ（絵筆の属性）を設定する
+      ctx.strokeStyle = ""; // 線や輪郭の色
+      ctx.lineWidth = 1; // 線の幅
+      ctx.lineCap = "round"; // 線の終端の形状
+
+      // ctx.fillStyle = "rgb(0, 141, 213)"; // 文字色指定
+      // ctx.globalAlpha = 0.5; // 透明度
+
+
+      // 矩形を描く(マス目・碁盤状)
+      // strokeRect(左上のx座標,左上のy座標,幅,縦);
+      ctx.beginPath();
+
+      // 左上座標
+      var x = 3;
+      var const_x = 3;
+      var y = 3;
+
+      // セルの大きさ
+      var cellx = 50;
+      var celly = 50;
+
+      // map表示の大きさ
+      var mapSize = 10;
+
+      // クリックしたcellのx,y座標格納
+      var click_info01 = [];
+      var click_info02 = [];
+
+      // ランダムの表示数値
+      var randNum = 0;
+
+      // ランダムの数値を順番に格納配列
+      var array_num = [];
+
+      // マス目の連想配列
+      var array_cell = new Array();
+
+      // 入れ子の連想配列のキー
+      var temp_ass = 0;
+
+      // クリックされたcell
+      var clicked_cell = new Array();
+      clicked_cell.push(null);
+
+      // クリックした添字を入れる（マス目）
+      var array_p = new Array();
+      
+      var re01 = 0;
+      var re02 = 0;
+
+      // 画像描画 : 画像オブジェクトを生成
+      // var img = new Image();
+      // img.src = "gazou01.jpg";
+      // // 画像をcanvasに設定
+      // img.onload = function () {
+      //   ctx.drawImage(img, x, y, 500, 500);
+      // }
+
+      // マス目表示
+      //
+      for (i = 0; i < mapSize; i++) {
+        for (j = 0; j < mapSize; j++) {
+          x += cellx;
+          ctx.strokeRect(x, y, cellx, celly);
+          
+          // ランダム数値生成(一桁の数値は0をつける)
+          var randNum = Math.floor(Math.random() * mapSize * 2);
+          if (randNum < 10) {
+            randNum = "0" + randNum;
+          }
+          // ランダム数値表示
+          ctx.strokeStyle = "black";
+          ctx.font = "40px 'Times New Roman'";
+          ctx.fillText(randNum, x+4, y+40);
+          array_num.push(randNum);
+
+          // 入れ子の連想配列作成 x,y座標情報を格納
+          array_cell[temp_ass] = {x: x, y: y};
+          temp_ass += 1;
+        }
+        x = const_x;
+        y += celly;
+      }
+
+      // 数値格納配列表示
+      displayArrayNum(array_num);
+
+      // マス目配列表示
+      // document.getElementById("array_cell").textContent = array_cell;
+
+      // マス目多次元連想配列表示 コンソール
+      for (p in array_cell) {
+        console.log(p + " " + " x : " + array_cell[p].x + " y : " + array_cell[p].y);
+      }
+      
+      // マウスクリック処理
+      //
+      canvas.onmousedown = mymousedown;
+      // マウスクリックイベントハンドラ
+      function mymousedown(e) {
+        p0 = { x: e.offsetX, y: e.offsetY };
+        document.getElementById("mouse_x").textContent = p0.x;
+        document.getElementById("mouse_y").textContent = p0.y;
+
+        // クリックされたcellを特定
+        for (p in array_cell) {
+          if (array_cell[p].x < p0.x && array_cell[p].x + cellx > p0.x &&
+              array_cell[p].y < p0.y && array_cell[p].y + celly > p0.y) {
+            // クリックされた座標v表示
+            document.getElementById("click_cell").textContent = array_cell[p].x;
+
+            // array_num[p](クリックされたマスの数字の対応する要素)を格納
+            clicked_cell.push(array_num[p]);
+            array_p.push(p);
+
+            // クリックされたcellの情報格納
+            click_info01.push(array_cell[p].x);
+            click_info01.push(array_cell[p].y);
+            
+          }
+        }
+
+        // クリックされたcellとその前にクリックしたcellを調べ同じ数字か確認
+        if (clicked_cell[0] == null && clicked_cell.slice(-1)[0] == clicked_cell.slice(-2)[0]) {
+
+          // 正解の場合
+          document.getElementById("seikai").textContent = "正解";
+
+          // 今クリックした場所を消す
+          ctx.fillStyle = "#FFFFFF";
+          ctx.fillRect(click_info01.slice(-2)[0], click_info01.slice(-1)[0], cellx, celly);
+          // １つ前にクリックした場所を消す
+          ctx.fillRect(click_info01.slice(-4)[0], click_info01.slice(-3)[0], cellx, celly);
+
+          // array_num 配列の正解した添字を返す
+          re01 = array_p.slice(-1)[0];
+          re02 = array_p.slice(-2)[0];
+
+          // 正解した数値(現クリックと前クリック)をarray_numから削除ではエラーなので@を入れる
+          // array_num.splice(re01, 1);
+          array_num[re01] = null;
+          array_num[re02] = null;
+
+          displayArrayNum(array_num);
+          document.getElementById("re01").textContent = re01;
+          document.getElementById("re02").textContent = re02;
+        
+
+        // 不正解の場合
+        } else {
+          document.getElementById("seikai").textContent = "不正解";
+        }
+
+        // クリックされた配列表示
+        document.getElementById("clicked_cell").textContent = clicked_cell;
+        // クリックされたcell最後
+        document.getElementById("clicked_end").textContent = clicked_cell.slice(-2)[0];
+
+        displayArrayP(array_p);
+
+       
+        // array_num配列が全て違う数値になった時ゲームを終了させる todo
+        //
+        var temp = 0;
+        // filterでnullと00を消す
+        a = array_num.filter(v => v);
+        a.forEach(function (item) {
+          for (i = 0; i < a.length; i++) {
+            if (a[i] === item) {
+              // 全ての数値が別でもtempは0にはならない。比べている自分自身と一致してしまう。同じ要素が１つもなかったらtempはlengthと同じ数になる。
+              temp += 1;
+              console.log("一致あり");
+            }
+          }
+        });
+        if (temp == a.length) {
+          clearInterval(timer);
+          document.getElementById("clear").textContent = "クリア！";
+        }
+
+      } // マウスクリックイベントハンドラの終わり
+
+      // タイマースタート
+      startTime = new Date(); // 現在時刻の取得
+      timer = setInterval(tick, 1000);
+    } // init()の終わり
+
+    // タイマー
+    function tick() {
+      var now = new Date();
+
+      var elapsed = Math.floor((now.getTime() - startTime.getTime()) / 1000);
+      document.getElementById("time").textContent = elapsed;
+    }
+
+    // タイマーストップ
+    function stopTimer() {
+      clearInterval(timer);
+    }
+
+    // array_num(ランダムに生成された数値) 表示メソッド
+    function displayArrayNum(array_num) {
+      document.getElementById("array_num").textContent = array_num;
+    }
+
+    function displayArrayP(array_p) {
+      document.getElementById("array_p").textContent = array_p;
+    }
+
+  </script>
+</head>
+
+<body onload="init()">
+  <h1>上海クローン</h1>
+  <p>JavaScript</p>
+  <p>ルール : 同じ数字を連続してクリックするとその数字が消えます。同じ数字がなくなったらクリアです。最速目指して頑張りましょう！</p>
+  <!-- <canvas id="canvas" width="600" height="510"></canvas> -->
+  <canvas id="canvas" width="600" height="510"></canvas>
+  <h2 id="clear"></h2>
+  <p>あなたの記録は <span id="time"></span>秒です!</p>
+
+  <p>タイマー : <span id="time"></span><button onclick="stopTimer()">ストップ</button></p>
+
+
+  <p>array_p : <span id="array_p"></span></p>
+  <p>re01 : <span id="re01"></span></p>
+  <p>re02 : <span id="re02"></span></p>
+  
+  <p>結果 : <span id="seikai"></span></p>
+  <p>クリック配列 clicked_cell : <span id="clicked_cell"></span></p>
+  <p>クリック配列最後 : <span id="clicked_end"></span></p>
+
+
+  <p>数値格納配列 array_num : <span id="array_num"></span></p>
+  <p>マス目特定 click_cell : <span id="click_cell"></span></p>
+  <p>mouse x座標 : <span id="mouse_x"></span></p>
+  <p>mouse y座標 : <span id="mouse_y"></span></p>
+  
+</body>
+
+</html>
+
+<!-- / tips canvas
+/ CanvasはHTML5で追加された要素で線や矩形、円、画像を描画する。
+
+/ Canvasで描画する手順
+
+/ 1,HTMLでcanvas要素を定義
+/ 2,JavaScriptでcanvas要素への参照を取得
+/ 3,canvas要素の参照からコンテキストを取得
+/ 4,コンテキストに色や線の太さを設定
+/ 5,コンテキストに対して線や矩形などの描画を行う
+
+
+/ 図形の描画の主なプロバティ
+/ ctx.strokeStyle : 線や輪郭の色
+/ ctx.fillStyle : 塗りつぶしの色
+/ ctx.lineWidth : 線の幅
+/ ctx.lineCap : 線の終端の形状で、butt,round,squareの値が使用可能
+/ ctx.shadowColor : 現在の影の色
+/ ctx.shdowBlur : 影に適用するぼかす範囲
+ -->

@@ -9,13 +9,14 @@ Rails.application.routes.draw do
   # /aboutというパスをaboutアクションと結びつく。about_pathメソッドが/aboutを返すようになる。
   # get "about" => "top#about", as: "about"
 
-  get root to: 'syanhais#index'
+  # root to: 'syanhais#index'
+  get 'syanhais/index'
 
   get 'jzips/index'
   # get root to: 'jzips#index'
   resources :jzips
 
-  # get root to: 'places#index'
+  root to: 'places#index'
   get 'places/index'
   get 'places/new'
   get 'places/create'
@@ -46,7 +47,12 @@ end
 # モデル名は頭文字大文字単数形
 # テーブル名は複数形
 
-# Syanhaiモデル ここから
+# Wordモデル
+#
+# rails g model Word english:text japanese:text
+# rails g controller Words index show answer
+
+# Syanhaiモデル
 #
 # rails g model Syanhai name:text score:text
 # rails g controller Syanhais index
