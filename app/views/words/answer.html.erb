@@ -1,0 +1,19 @@
+<div class="jumbotron">
+
+  <p>解答一覧</p>
+
+
+  <table class="table">
+    <tr bgcolor="silver">
+      <th>単語</th>
+      <th>意味</th>
+    </tr>
+    <% @words.each do |word| %>
+    <tr>
+      <td><%= word.english %></td>
+      <td><%= word.japanese %></td>
+    </tr>
+    <% end %>
+  </table>
+
+</div>

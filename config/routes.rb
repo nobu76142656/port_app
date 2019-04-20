@@ -9,6 +9,13 @@ Rails.application.routes.draw do
   # /aboutというパスをaboutアクションと結びつく。about_pathメソッドが/aboutを返すようになる。
   # get "about" => "top#about", as: "about"
 
+
+  root to: 'words#index'
+  get 'words/index'
+  get 'words/show'
+  get 'words/answer'
+  get 'words/comparison'
+
   # root to: 'syanhais#index'
   get 'syanhais/index'
 
@@ -43,6 +50,8 @@ Rails.application.routes.draw do
   resources :tozans
   resources :users
 end
+
+# flashが :noticeしか表示しない状況
 
 # モデル名は頭文字大文字単数形
 # テーブル名は複数形

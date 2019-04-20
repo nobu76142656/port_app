@@ -186,7 +186,6 @@
   <!-- helper内random_sendメソッドを使用 -->
   <p>目的地の数を入力してください(現在5箇所限定)</p>
   <%= form_for @place do |f| %>
-    <!-- <input name="id" value=<%= random_send %>> -->
     <input name="times">
     <input type="submit" value="  目的地数入力  ">
   <% end %>
@@ -226,7 +225,7 @@
   <br><br>
   <!-- ランダムの数字を生成し地名と郵便番号を取る -->
   <%= form_tag('/places/index', method: :get) do %>
-    <input name="random_id" value=<%= random_send %>>
+    <input name="random_id" value=<%= p_random_send %>>
     <br><br>
     <input type="submit" value="  送る  ">
   <% end %>
@@ -247,5 +246,4 @@
   </div>
 
 </body>
-
 </html>
