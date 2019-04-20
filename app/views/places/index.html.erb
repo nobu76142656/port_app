@@ -24,7 +24,7 @@
   <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
   <!-- google map api -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
-  
+
   <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
   <%= javascript_tag do %>
     window.places = <%= raw @places.to_json %>;
@@ -111,7 +111,7 @@
 
       var way_temp = 0; // way_array の読み込み位置制御変数
       var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(place[1], place[2]),
+        position: new google.maps.LatLng(parseFloat(place[1]), parseFloat(place[2])),
         map: map
       });
 
@@ -120,16 +120,16 @@
       r_route.push(place[1])
       r_route.push(place[2])
       request = {
-        origin: new google.maps.LatLng(r_route[0], r_route[1]), // 出発地
-        destination: new google.maps.LatLng(r_route.slice(-2)[0], r_route.slice(-1)[0]), // 目的地
+        origin: new google.maps.LatLng(parseFloat(r_route[0]), parseFloat(r_route[1])), // 出発地
+        destination: new google.maps.LatLng(parseFloat(r_route.slice(-2)[0]), parseFloat(r_route.slice(-1)[0])), // 目的地
 
         // 数の指定ができない
         waypoints: [ // 経由地点(指定なしでも可)
-          { location: new google.maps.LatLng(way_array[wl - wl + 0], way_array[wl - wl + 1 + 0]) },
-          { location: new google.maps.LatLng(way_array[wl - wl + 2], way_array[wl - wl + 1 + 2]) },
-          { location: new google.maps.LatLng(way_array[wl - wl + 4], way_array[wl - wl + 1 + 4]) },
-          { location: new google.maps.LatLng(way_array[wl - wl + 6], way_array[wl - wl + 1 + 6]) },
-          { location: new google.maps.LatLng(way_array[wl - wl + 8], way_array[wl - wl + 1 + 8]) },
+          { location: new google.maps.LatLng(parseFloat(way_array[wl - wl + 0]), parseFloat(way_array[wl - wl + 1 + 0])) },
+          { location: new google.maps.LatLng(parseFloat(way_array[wl - wl + 2]), parseFloat(way_array[wl - wl + 1 + 2])) },
+          { location: new google.maps.LatLng(parseFloat(way_array[wl - wl + 4]), parseFloat(way_array[wl - wl + 1 + 4])) },
+          { location: new google.maps.LatLng(parseFloat(way_array[wl - wl + 6]), parseFloat(way_array[wl - wl + 1 + 6])) },
+          { location: new google.maps.LatLng(parseFloat(way_array[wl - wl + 8]), parseFloat(way_array[wl - wl + 1 + 8])) },
           // { location: new google.maps.LatLng(way_array[wl - wl + 10], way_array[wl - wl + 1 + 10]) },
           // { location: new google.maps.LatLng(way_array[wl - wl + 12], way_array[wl - wl + 1 + 12]) },
         ],
