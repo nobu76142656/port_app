@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # get "about" => "top#about", as: "about"
 
 
-  root to: 'words#index'
+  # root to: 'words#index'
   get 'words/index'
   get 'words/show'
   get 'words/answer'
