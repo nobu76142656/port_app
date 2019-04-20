@@ -24,8 +24,8 @@
   <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
   <!-- google map api -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0y-XaRkwtdhbjAy34iuzkwefWHV7IIjk"></script>
+  
   <!-- アクションから渡されたインスタンス変数を変換 javascriptに渡すため-->
-
   <%= javascript_tag do %>
     window.places = <%= raw @places.to_json %>;
   <% end %>
@@ -85,13 +85,13 @@
     var r_route = [];
 
     // waypointを使うための配列設定
-    console.log("pl_array_re : " + pl_array_re[1][1]);
+    // console.log("pl_array_re : " + pl_array_re[1][1]);
     var way_array = [];
     for (i = 0; i < pl_array_re.length; i++) {
       way_array.push(pl_array_re[i][1]);
       way_array.push(pl_array_re[i][2]);
     }
-    console.log("shift・pop前 : " + way_array);
+    // console.log("shift・pop前 : " + way_array);
     // 1番目の場所と最後の場所の緯度経度を削除
     way_array.shift();
     way_array.shift();
@@ -101,8 +101,8 @@
     var wl = 0;
     wl = way_array.length;
 
-    console.log("way_array.length : " + wl);
-    console.log("way_array : " + way_array);
+    // console.log("way_array.length : " + wl);
+    // console.log("way_array : " + way_array);
 
     // ランダム緯度経度読み込み
     // var places = new google.maps.MVCArray(pl_a_random);
